@@ -24,6 +24,7 @@ def search_in_file(path, answer):
 def search_in_folder(path, answer):
     initial_path = path
     items = os.listdir(initial_path)
+    found_files = []
 
     for item in items:
         current_path = os.path.join(initial_path, item)
@@ -31,12 +32,15 @@ def search_in_folder(path, answer):
             found = search_in_file(current_path, answer)
             if found:
                 print(current_path)
+                found_files.append(current_path)
                 # return uncomment if you only want the first file containing the keyword to be shown.
 
     for item in items:
         current_path = os.path.join(initial_path, item)
         if os.path.isdir(current_path):
-            search_in_folder(current_path, answer)
+            found_files += search_in_folder(current_path, answer)
+
+    return found_files
 
 
 # Asks user for input, changes the current directory to '\TestData', sets new path and then calls the search function.
@@ -48,5 +52,6 @@ def main():
     search_in_folder(current_path, answer)
 
 
-# Calls the main function to get the program started.
-main()
+if __name__ == '__main__':
+    # Calls the main function to get the program started.
+    main()
